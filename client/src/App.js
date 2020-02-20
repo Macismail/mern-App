@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.css';
+// import 'bootstrap/dist/css/bootstrap-theme.css';
 
 class App extends React.Component {
   // constactor
@@ -85,47 +87,51 @@ class App extends React.Component {
 
   render(){
     return (
-      <div>
-        <h1> welcome to MERN APPLICATION</h1>
-        <form onSubmit={this.submit}>
-          <div className="form-control">
-            <input type="text" 
-              name="fname" 
-              onChange={this.handleChange} 
-              value={this.state.fname}
-              placeholder = "First Name"
-            />
-          </div>
-          <div className="form-control">
-            <input type="text" 
-              name="lname" 
-              onChange={this.handleChange} 
-              value={this.state.lname}
-              placeholder = "Last Name"
-            />
-          </div>
-          <div className="form-control">
-            <input type="email" 
-              name="email" 
-              onChange={this.handleChange} 
-              value={this.state.email}
-              placeholder = "email"
-            />
-          </div>
-          <div className="form-control">
-            <input type="password" 
-              name="password" 
-              onChange={this.handleChange} 
-              value={this.state.password}
-              placeholder = "password"
-            />
-          </div>
-          <div className="form-control">
-            <button type="submit">Submit</button>
-          </div>
-        </form>
-
-        <div className="users-details">
+      <div className="container">
+        <h1 className="text-center"> welcome to MERN APPLICATION</h1><br/>
+        <div className="row">
+        <div className="col-md-3"></div>
+        <div className="col-md-6">
+          <form className="text-center" onSubmit={this.submit}>
+            <div className="form-control">
+              <input type="text" 
+                name="fname" 
+                onChange={this.handleChange} 
+                value={this.state.fname}
+                placeholder = "First Name"
+              />
+            </div>
+            <div className="form-control">
+              <input type="text" 
+                name="lname" 
+                onChange={this.handleChange} 
+                value={this.state.lname}
+                placeholder = "Last Name"
+              />
+            </div>
+            <div className="form-control">
+              <input type="email" 
+                name="email" 
+                onChange={this.handleChange} 
+                value={this.state.email}
+                placeholder = "email"
+              />
+            </div>
+            <div className="form-control">
+              <input type="password" 
+                name="password" 
+                onChange={this.handleChange} 
+                value={this.state.password}
+                placeholder = "password"
+              />
+            </div>
+            <div className="form-control">
+              <button className="btn btn-outline-primary btn-sm" type="submit">Submit</button>
+            </div>
+          </form>
+        </div>
+        </div><hr />
+        <div className="text-center">
           {this.displayUsers(this.state.posts)}
         </div>
       </div>
