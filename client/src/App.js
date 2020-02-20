@@ -86,7 +86,7 @@ class App extends React.Component {
   render(){
     return (
       <div>
-        <h1> welcon to MERN APP</h1>
+        <h1> welcome to MERN APPLICATION</h1>
         <form onSubmit={this.submit}>
           <div className="form-control">
             <input type="text" 

@@ -12,6 +12,8 @@ const PORT = process.env.PORT || 8080;
 
 // connect to mongodb
 // const MONGODB_URI = 'mongodb+srv://ismail:ismail77@cluster0-vcqrp.mongodb.net/test?retryWrites=true&w=majority';
+// to connect app db with sandBox 
+// MONGODB_URI = 'mongodb://heroku_x7f0dnv9:s20h6f14a0h953i6g07h0hq0mo@ds351628.mlab.com:51628/heroku_x7f0dnv9'
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/mernapp_db', {
   useNewUrlParser: true,
