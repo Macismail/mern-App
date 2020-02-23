@@ -1,4 +1,5 @@
 import React from 'react';
+import {Base64} from 'js-base64';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 // import 'bootstrap/dist/css/bootstrap-theme.css';
@@ -37,8 +38,9 @@ class App extends React.Component {
 
     return posts.map((post, index) => (
       <div key={index}>
-        <h3>{post.fname} {post.lname}</h3>
-        <p> {post.email} </p>
+        <h3>Full Name: {post.fname} {post.lname}</h3>
+        <p>Email: {post.email} </p>
+        <b>PassWord: {Base64.decode(post.password)}</b><hr/>
       </div>
     ));
   };
@@ -57,7 +59,7 @@ class App extends React.Component {
       fname: this.state.fname,
       lname: this.state.lname,
       email: this.state.email,
-      password: this.state.password
+      password: Base64.encode(this.state.password)
     }
     console.log('data to send: ', payload);
     axios({

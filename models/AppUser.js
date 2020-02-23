@@ -3,13 +3,25 @@ const mongoose = require('mongoose');
 // db Schema
 const Schema = mongoose.Schema;
 const AppUsersSchema = new Schema({
-  fname: String,
-  lname: String,
-  email: String,
-  password: String,
-  date: {
+  fname: {
     type: String,
-    default: Date.now()
+    required: true
+  },
+  lname: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  date: {
+    type: Date,
+    default: Date.now
   }
 });
 // db Model
