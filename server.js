@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const path = require('path');
-
+// const AppUser = require('./models/AppUser');
 const routes = require('./routes/api');
 
 
@@ -25,7 +25,25 @@ mongoose.connection.on('connected', () => {
 // data parsing
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+/*
+// save data to mongodb
+const data = {
+  fname: 'samsomy',
+  lname: 'maccccc',
+  email: 'samsomy@gmail.com',
+  password: 'samsomypw'
+};
 
+const newappuser = new AppUser(data); // new instence of the model
+
+newappuser.save((error) => {
+  if(error){
+    console.log('Ooops! something went wrong ...');
+  }else{
+    console.log('Data saved Successfully ...');
+  }
+});
+*/
 // http request logger
 app.use(morgan('tiny'));
 app.use('/api', routes);
