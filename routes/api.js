@@ -1,10 +1,11 @@
 const express = require('express');
-const AppUser = require('../models/AppUser');
+const AppUser = require('../models/AddUser');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
 // Routes
-router.post('/save', (req, res) => {
+router.post('/register', (req, res) => {
   console.log("Body: ", req.body);
   const data = req.body;
 
@@ -14,9 +15,9 @@ router.post('/save', (req, res) => {
     if(error){
       res.status(500).json({msg: 'Sorry: Internal Server error'});
     }else{
-      res.json({
-        msg: 'we received and save your data'
-      });
+      // const token = jwt.sign(newUser.id, '77')
+      // res.json({fname: newUser.fname, token})
+      res.json({ msg: 'data received and saved ...' });
     }
   });
 });

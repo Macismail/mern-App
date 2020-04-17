@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 // db Schema
 const Schema = mongoose.Schema;
-const AppUsersSchema = new Schema({
-  fname: {
+const AddUsersSchema = new Schema({
+  firstname: {
     type: String,
     required: true
   },
-  lname: {
+  lastname: {
     type: String,
     required: true
   },
@@ -25,6 +25,6 @@ const AppUsersSchema = new Schema({
   }
 });
 // db Model
-const AppUser = mongoose.model('AppUser', AppUsersSchema);
+const AddUser = mongoose.model('AddUser', AddUsersSchema);
 
-module.exports = AppUser;
+module.exports = AddUser;
