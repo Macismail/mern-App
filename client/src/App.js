@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Register from './components/register';
 import Display from './components/display';
 import Home from './components/home';
@@ -41,6 +41,7 @@ class App extends React.Component {
         <h1 className="text-center"> welcome to MERN APPLICATION</h1><br />
         <Switch>
           <Route path="/" exact component={Home} />
+          <Redirect from="/home" to="/" />
           <Route path="/register" exact component={Register} />
           <Route path="/display" exact component={Display} />
           <Route path="/login" exact component={Login} />

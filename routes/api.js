@@ -1,15 +1,15 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
 const AppUser = require('../models/AppUser');
 
 const router = express.Router();
 
-// Routes
+// registration
 router.post('/save', (req, res) => {
   console.log("Body: ", req.body);
   const data = req.body;
 
   const newUser = new AppUser(data);
-  // save data to db
   newUser.save((error) => {
     if(error){
       res.status(500).json({msg: 'Sorry: Internal Server error'});
@@ -19,6 +19,18 @@ router.post('/save', (req, res) => {
       });
     }
   });
+});
+
+// login
+router.get('/login', (req, res) => {
+  AppUser.findOne({email: req.doby.email})
+  .then(data => {
+    const user = data.json()
+    if(!user) return res.json({success: false, nsg: 'email or password incorrect ...'})
+    if(user.password != req.body.password) return res.json({success: false, nsg: 'password incorrect ...'})
+    const token = jwt.sign(user.id, '77')
+    res.json({email: user.email, token})
+  })
 });
 
 router.get('/users', (req, res) => {
