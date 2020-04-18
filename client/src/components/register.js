@@ -56,7 +56,6 @@ class Register extends Component {
   render() {
     return (
       <div className="container">
-        <h1 className="text-center"> welcome to MERN APPLICATION</h1><br />
         <div className="row">
           <div className="col-md-3"></div>
           <div className="col-md-6">

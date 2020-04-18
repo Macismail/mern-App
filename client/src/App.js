@@ -38,6 +38,7 @@ class App extends React.Component {
             </span>
           </div>
         </nav>
+        <h1 className="text-center"> welcome to MERN APPLICATION</h1><br />
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/register" exact component={Register} />
