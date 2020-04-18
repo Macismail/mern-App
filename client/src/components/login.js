@@ -23,13 +23,19 @@ class Login extends Component {
     
     const loginData = {
       email: this.state.email,
-      password: Base64.encode(this.state.password)
+      password: this.state.password
     }
     console.log('data to send: ', loginData)
-    axios.get('/login', loginData)
+    axios({
+      url: "/api/login",
+      method: "POST",
+      data: loginData
+    })
     .then(res => {
       const data = res.data
-      console.log('login response: ', data)
+      localStorage.setItem("email", data.email)
+      localStorage.setItem("token", data.token)
+      console.log('token: ', data.token)
     })
     .catch(() => {
       alert('error retreiving data');
@@ -69,6 +75,7 @@ class Login extends Component {
             </form>
           </div>
         </div>
+        <h3 className="text-center">Token: {localStorage.getItem('token')}</h3>
       </div>
     );
   }

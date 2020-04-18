@@ -33,7 +33,7 @@ class Display extends Component {
         <div key={index}>
           <h3>Full Name: {post.fname} {post.lname}</h3>
           <p>Email: {post.email} </p>
-          <b>PassWord: {Base64.decode(post.password)}</b><hr/>
+          <b>PassWord: {post.password}</b><hr/>
         </div>
       ));
     };

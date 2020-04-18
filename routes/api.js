@@ -22,14 +22,21 @@ router.post('/save', (req, res) => {
 });
 
 // login
-router.get('/login', (req, res) => {
-  AppUser.findOne({email: req.doby.email})
-  .then(data => {
-    const user = data.json()
-    if(!user) return res.json({success: false, nsg: 'email or password incorrect ...'})
-    if(user.password != req.body.password) return res.json({success: false, nsg: 'password incorrect ...'})
-    const token = jwt.sign(user.id, '77')
-    res.json({email: user.email, token})
+router.post('/login', (req, res) => {
+  AppUser.findOne({email: req.body.email})
+  .then((data) => {
+    const user = data
+    if(!user){
+      res.json({success: false, nsg: 'email or password incorrect ...'})
+    }else {
+      if(user.password === req.body.password){
+        const token = jwt.sign(user.id, '77');
+        res.json({email: user.email, token});
+      }
+      else {
+        res.json({success: false, nsg: 'password incorrect ...'})
+      }
+    }
   })
 });
 
