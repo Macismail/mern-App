@@ -1,52 +1,46 @@
-import React, { Component } from 'react';
-import {Base64} from 'js-base64';
+import React from 'react';
+import { Base64 } from 'js-base64';
 import axios from 'axios';
 
-class Display extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {  
-      posts: []
-    }
-  }
+const Display = () => {
+  const [users, setUsers] = React.useState([]);
 
-    // get users details
-    componentDidMount = () => {
-      this.getUsersDetails();
-    };
-    getUsersDetails = () => {
-      axios.get('/api/users')
-      .then((response) => {
-        const data = response.data;
-        this.setState({ posts: data });
+  React.useEffect(() => {
+    getUsersDetails();
+  }, [])
+
+  const getUsersDetails = () => {
+    axios.get('/api/users')
+      .then((res) => {
+        setUsers(res.data);
         console.log('data has been received ....');
       })
-      .catch(() =>{
+      .catch(() => {
         alert('error retreiving data');
       })
-    }
-    // display users details
-    displayUsers = (posts) => {
-      if(!posts.length) return null;
-  
-      return posts.map((post, index) => (
-        <div key={index}>
-          <h3>Full Name: {post.fname} {post.lname}</h3>
-          <p>Email: {post.email} </p>
-          <b>PassWord: {post.password}</b><hr/>
-        </div>
-      ));
-    };
-
-  render() { 
-    return (  
-      <div className="container">
-      <div className="text-center">
-        {this.displayUsers(this.state.posts)}
-      </div>
-      </div>
-    );
   }
+
+  return (
+    <React.Fragment>
+      {
+        users ? (
+          <div className="container" >
+            <div className="text-center">
+              {users.map((user, index) => (
+                <div key={index}>
+                  <h3>Full Name: {user.firstname} {user.lastname}</h3>
+                  <p>Email: {user.email} </p>
+                  <b>PassWord: {user.password}</b><hr />
+                </div>
+              ))}
+            </div>
+          </div >
+        ) : (
+            <div> No users in the list </div>
+          )}
+    </React.Fragment>
+  );
+
 }
- 
+
 export default Display;

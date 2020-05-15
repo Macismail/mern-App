@@ -1,6 +1,6 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const AppUser = require('../models/AppUser');
+const User = require('../models/User');
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ router.post('/save', (req, res) => {
   console.log("Body: ", req.body);
   const data = req.body;
 
-  const newUser = new AppUser(data);
+  const newUser = new User(data);
   newUser.save((error) => {
     if(error){
       res.status(500).json({msg: 'Sorry: Internal Server error'});
@@ -23,7 +23,7 @@ router.post('/save', (req, res) => {
 
 // login
 router.post('/login', (req, res) => {
-  AppUser.findOne({email: req.body.email})
+  User.findOne({email: req.body.email})
   .then((data) => {
     const user = data
     if(!user){
@@ -41,7 +41,7 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/users', (req, res) => {
-  AppUser.find({ })
+  User.find({ })
   .then((data) => {
     console.log('Data: ', data);
     res.json(data);

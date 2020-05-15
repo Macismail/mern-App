@@ -1,17 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {  }
-  }
-  render() { 
+const Home = () => {
+
     return (  
-      <div className="container">
-        <h2 className="text-center">Home</h2>
+      <div className="text-center">
+        <h2>Home</h2>
       </div>
     );
-  }
+  
 }
  
 export default Home;

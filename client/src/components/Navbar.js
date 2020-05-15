@@ -1,41 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import Register from './components/register';
-import Display from './components/display';
-import Home from './components/home';
-import Login from './components/login';
+import Register from './Account/register';
+import Display from './display';
+import Home from './home';
+import Login from './Account/login';
 
-import 'bootstrap/dist/css/bootstrap.css';
-// import 'bootstrap/dist/css/bootstrap-theme.css';
+const Navbar = () => {
 
-class App extends React.Component {
-  // constactor
-  constructor(props) {
-    super(props)
-    this.state = {}
+  const [isAuth, setToken] = useState();
+
+  React.useEffect(() => {
+    setToken(localStorage.getItem("token"))
+  }, [])
+
+  const logout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("email")
+    window.location.href='/'  
   }
 
-  render() {
-    return (
-      <div>
-        <Router>
+  return (
+    <div>
+      <Router>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-          <a className="navbar-brand" href="/">Navbar</a>
+          <a className="navbar-brand" href="/">Ismail</a>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarText">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <a className="nav-link" href="register">Register</a>
-              </li>
-              <li className="nav-item">
                 <a className="nav-link" href="display">Display</a>
               </li>
             </ul>
-            <span className="navbar-text">
+            {!isAuth ? (
+            <div className="btn-group">
               <a className="nav-link" href="login">login</a>
+              <a className="nav-link" href="register">Register</a>
+            </div>
+            ) : (
+            <span>
+              <button className="btn btn-link" onClick={logout}>logout</button>
             </span>
+            )}
           </div>
         </nav>
         <h1 className="text-center"> welcome to MERN APPLICATION</h1><br />
@@ -47,9 +54,8 @@ class App extends React.Component {
           <Route path="/login" exact component={Login} />
         </Switch>
       </Router>
-      </div>
-    );
-  }
+    </div>
+  );
 }
 
-export default App;
+export default Navbar;
