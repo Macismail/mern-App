@@ -1,106 +1,126 @@
-import React, { Component } from 'react';
-import {Base64} from 'js-base64';
+import React from 'react';
+import { Base64 } from 'js-base64';
 import axios from 'axios';
 
-class Register extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      fname: '',
-      lname: '',
-      email: '',
-      password: ''
+const Register = () => {
+
+  const [isAuth, setAuth] = React.useState(false)
+  React.useEffect(() => {
+    const token = localStorage.getItem("token")
+    if (token) {
+      setAuth(true)
     }
+  }, [])
+
+  const [user, setUser] = React.useState({
+    firstname: "", lastname: "", email: "",
+    password: "", confpassword: "",
+  })
+
+  const [err, setErr] = React.useState({ emailErr: "", passwordErr: "", cpasswordErr: "" });
+
+  const handleChange = (e) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value,
+    })
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // validattion
+    const isValid = validate();
+    if (isValid) {
+      setUser({
+        ...user,
+        password: Base64.encode(user.password)
+      })
+      console.log('data to send: ', user);
+      axios({
+        url: "/api/register",
+        method: "POST",
+        data: user
+      })
+        .then(() => {
+          console.log('data sent to the server');
+          this.resetUserInputs();
+        })
+        .catch(() => {
+          console.log('Internel error...');
+        });
+        window.location.href = '/'
+    }
+  };
+
+  // form validation
+  const validate = () => {
+    if (!user.email.includes('.')) {
+      setErr({ emailErr: "Enter valid email" })
+      return false
+    }
+    if (user.password.length < 8) {
+      setErr({ passwordErr: "Password should be at least 8 characters" })
+      return false
+    }
+    if (user.password !== user.confpassword) {
+      setErr({ cpasswordErr: "Not match Password" })
+      return false
+    }
+    return true
   }
 
-  handleChange = ({target}) => {
-    // const name = event.target.name;
-    // const value = event.target.value; => the same as the 2 lines bellow
-    const {name, value} = target;
-    this.setState({ [name]: value });
-  };
-
-  submit = (event) => {
-    event.preventDefault();
-
-    const payload = {
-      fname: this.state.fname,
-      lname: this.state.lname,
-      email: this.state.email,
-      password: Base64.encode(this.state.password)
-    }
-    console.log('data to send: ', payload);
-    axios({
-      url: "/api/save",
-      method: "POST",
-      data: payload
-    })
-    .then(() => {
-      console.log('data sent to the server');
-      this.resetUserInputs();
-    })
-    .catch(() => {
-      console.log('Internel error...');
-    });
-  };
-
-  resetUserInputs = () => {
-    this.setState({
-      fname: '',
-      lname: '',
-      email: '',
-      password: ''
-    });
-  };
-
-  render() {
-    return (
+  return (
+    <React.Fragment>
+    {isAuth ? (window.location.href = '/') : (
       <div className="container">
-        <div className="row">
-          <div className="col-md-3"></div>
-          <div className="col-md-6">
-            <form className="text-center" onSubmit={this.submit}>
-              <div className="form-control">
-                <input type="text"
-                  name="fname"
-                  onChange={this.handleChange}
-                  value={this.state.fname}
-                  placeholder="First Name"
+        <div className="card w-45" style={{backgroundColor: "#85C1E9", alignItems: "center"}}>
+          <div className="card-body">
+            <h3 className="card-title text-center">Register</h3><hr />
+            <form onSubmit={handleSubmit}>
+              <div className="form-group">
+                <div className="form-label">First Name</div>
+                <input className="form-control" type="text" name="firstname"
+                  onChange={handleChange} placeholder="First Name" required
                 />
               </div>
-              <div className="form-control">
-                <input type="text"
-                  name="lname"
-                  onChange={this.handleChange}
-                  value={this.state.lname}
-                  placeholder="Last Name"
+              <div className="form-group">
+                <div className="form-label">Last Name</div>
+                <input className="form-control" type="text" name="lastname"
+                  onChange={handleChange} placeholder="Last Name" required
                 />
               </div>
-              <div className="form-control">
-                <input type="email"
-                  name="email"
-                  onChange={this.handleChange}
-                  value={this.state.email}
-                  placeholder="email"
+              <div className="form-group">
+              <div className="form-label">Email Address</div>
+                <input className="form-control" type="email" name="email" 
+                  onChange={handleChange} placeholder="email" required
                 />
+                <p style={{ color: "red", fontSize: 12 }}>{err.emailErr}</p>
               </div>
-              <div className="form-control">
-                <input type="password"
-                  name="password"
-                  onChange={this.handleChange}
-                  value={this.state.password}
-                  placeholder="password"
+              <div className="form-group">
+              <div className="form-label">Password</div>
+                <input className="form-control" type="password" name="password"
+                  onChange={handleChange} placeholder="password" required
                 />
+                <p style={{ color: "red", fontSize: 12 }}>{err.passwordErr}</p>
               </div>
-              <div className="form-control">
-                <button className="btn btn-outline-primary btn-sm" type="submit">Submit</button>
+              <div className="form-group">
+              <div className="form-label">Confirm Password</div>
+                <input className="form-control" type="password" name="confpassword"
+                  onChange={handleChange} placeholder="Confirm password"
+                />
+                <p style={{ color: "red", fontSize: 12 }}>{err.cpasswordErr}</p>
+              </div><br />
+              <div className="form-group text-center">
+                <button className="btn btn-primary btn-block" type="submit">Submit</button>
               </div>
             </form>
           </div>
-        </div><hr />
+        </div>
       </div>
-    );
-  }
+    )}
+    </React.Fragment>
+  );
+
 }
 
 export default Register;

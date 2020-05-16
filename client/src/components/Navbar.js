@@ -44,8 +44,7 @@ const Navbar = () => {
             </span>
             )}
           </div>
-        </nav>
-        <h1 className="text-center"> welcome to MERN APPLICATION</h1><br />
+        </nav> <br />
         <Switch>
           <Route path="/" exact component={Home} />
           <Redirect from="/home" to="/" />
